@@ -10,7 +10,6 @@ public class Todo {
     @GeneratedValue // que se autogenere el identificador
     private  long id;
     private  String name;
-    private boolean isCompleted;
 
     public long getId() {
         return id;
@@ -35,6 +34,10 @@ public class Todo {
     public void setCompleted(boolean completed) {
         isCompleted = completed;
     }
+
+    private boolean isCompleted;
+
+
 
 
 

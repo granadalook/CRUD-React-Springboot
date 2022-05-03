@@ -4,28 +4,44 @@ import React, {
   useEffect,
   useReducer,
   useRef,
+  useState,
 } from "react";
 
-import "./App.css";
-
 const HOST_API = "http://localhost:8080/api";
+
 const initialState = {
   list: [],
 };
+
+const Store = createContext(initialState);
+
 const Form = () => {
   const formRef = useRef(null);
+  const { dispatch } = useContext(Store);
+  const [state, setState] = useState({});
 
   const onAdd = (event) => {
-    event.preventDefault();
     const request = {
       name: state.name,
-      description: state.description,
       id: null,
-      isComplete
+      isCOmpleted: false,
     };
-    
 
+    fetch(HOST_API + "/todo", {
+      method: "POST",
+      body: JSON.stringify(request),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((todo) => {
+        dispatch({ type: "add-item", item: todo });
+        setState({ name: "" });
+        formRef.current.reset();
+      });
   };
+
   return (
     <form ref={formRef}>
       <input
@@ -35,19 +51,10 @@ const Form = () => {
           setState({ ...state, name: event.target.value });
         }}
       ></input>
-      <input
-        type="text"
-        name="description"
-        onChange={(event) => {
-          setState({ ...state, description: event.target.value });
-        }}
-      ></input>
-      <button onClick={onAdd}>agregar</button>
+      <button onClick={onAdd}>Agregar</button>
     </form>
   );
 };
-
-const Store = createContext(initialState);
 
 const List = () => {
   const { dispatch, state } = useContext(Store);
@@ -59,16 +66,13 @@ const List = () => {
         dispatch({ type: "update-list", list });
       });
   }, [state.list.length, dispatch]);
-
-  return;
-  <div>
+  return (
     <table>
       <thead>
         <tr>
           <td>ID</td>
-          <td>NOMBRE</td>
-          <td>DESCRIPCION</td>
-          <td>¿ESTA COMPLETADO?</td>
+          <td>Nombre</td>
+          <td>Esta completado?</td>
         </tr>
       </thead>
       <tbody>
@@ -77,18 +81,17 @@ const List = () => {
             <tr key={todo.id}>
               <td>{todo.id}</td>
               <td>{todo.name}</td>
-              <td>{todo.description}</td>
-              <td>{todo.idComplete}</td>
+              <td>{todo.isCompleted}</td>
             </tr>
           );
         })}
       </tbody>
     </table>
-  </div>;
+  );
 };
 function reducer(state, action) {
   switch (action.type) {
-    case "undate-list":
+    case "update-list":
       return { ...state, list: action.list };
     case "add-item":
       const newList = state.list;
@@ -98,14 +101,19 @@ function reducer(state, action) {
       return state;
   }
 }
-const StoreProvider = ({ childen }) => {
+
+const StoreProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  return <Store.Provider value={{ state, dispatch }}>{childen}</Store.Provider>;
+
+  return (
+    <Store.Provider value={{ state, dispatch }}>{children}</Store.Provider>
+  );
 };
 
 function App() {
   return (
     <StoreProvider>
+      <Form />
       <List />
     </StoreProvider>
   );

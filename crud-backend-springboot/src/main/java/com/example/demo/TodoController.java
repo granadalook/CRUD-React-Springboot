@@ -1,5 +1,4 @@
 package com.example.demo;
-import com.example.demo.Todo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,11 +10,13 @@ public class TodoController {
 
     @GetMapping(path = "api/todos")
     public Iterable<Todo> list() {
+        System.out.println(service.list());
         return service.list();
     }
 
     @PostMapping(path = "api/todo")
     public Todo save(@RequestBody Todo todo) {
+        System.out.println(todo);
         return service.save(todo);
     }
 

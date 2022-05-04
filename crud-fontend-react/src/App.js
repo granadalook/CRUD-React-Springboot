@@ -70,17 +70,27 @@ const Form = () => {
   };
 
   return (
-    <form ref={formRef}>
+    <form className="center" ref={formRef}>
       <input
+        className=" form-control form-control-lg"
         type="text"
         name="name"
+        placeholder="Ingresa dato a registrar"
         defaultValue={item.name}
         onChange={(event) => {
           setState({ ...state, name: event.target.value });
         }}
       ></input>
-      {item.id && <button onClick={onEdit}>Actualizar</button>}
-      {!item.id && <button onClick={onAdd}>Agregar</button>}
+      {item.id && (
+        <button className="btn btn-warning btn-lg m-4" onClick={onEdit}>
+          Actualizar
+        </button>
+      )}
+      {!item.id && (
+        <button className="btn btn-success btn-lg m-4" onClick={onAdd}>
+          Agregar
+        </button>
+      )}
     </form>
   );
 };
@@ -109,23 +119,36 @@ const List = () => {
     dispatch({ type: "edit-item", item: todo });
   };
   return (
-    <table>
+    <table className="table p-5">
       <thead>
-        <tr>
-          <td>ID</td>
-          <td>Nombre</td>
-          <td>Esta completado?</td>
+        <tr className="table-success">
+          <td>
+            <b>ID</b>
+          </td>
+          <td>
+            <b>Nombre</b>
+          </td>
+          <td>
+            <b>¿Esta completado?</b>
+          </td>
         </tr>
       </thead>
       <tbody>
         {state.list.length > 0 ? (
           state.list.map((todo) => (
             <tr key={todo.id}>
-              <td>{todo.id}</td>
-              <td>{todo.name}</td>
-              <td>{todo.isCompleted === true ? "SI" : "NO"}</td>
+              <td>
+                <b>{todo.id}</b>
+              </td>
+              <td>
+                <b>{todo.name}</b>
+              </td>
+              <td>
+                <b>{todo.isCompleted === true ? "SI" : "NO"}</b>
+              </td>
               <td>
                 <button
+                  className="btn btn-danger"
                   onClick={() => {
                     onDelete(todo.id);
                   }}
@@ -135,6 +158,7 @@ const List = () => {
               </td>
               <td>
                 <button
+                  className="btn btn-info"
                   onClick={() => {
                     onEdit(todo);
                   }}

@@ -2,7 +2,7 @@
 creacion de Crud   con react y sprintboot
 creacion de modulos header -footer - main 
 # Se deja link del video en youtube de la sustentacion
-# https://youtu.be/K7iHfG83WXw
+# https://www.youtube.com/watch?v=jeCg2gfnsOQ
 
 # Se dejan imagenes de la vista principal
 ![crud22](https://user-images.githubusercontent.com/74884635/166619720-577f2b71-bd1e-4839-bd54-7600a97bcdf8.png)

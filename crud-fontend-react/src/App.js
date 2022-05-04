@@ -6,6 +6,9 @@ import React, {
   useRef,
   useState,
 } from "react";
+import Footer from "./components/footer";
+import Header from "./components/header";
+import Main from "./components/main";
 
 const HOST_API = "http://localhost:8080/api";
 
@@ -188,8 +191,11 @@ const StoreProvider = ({ children }) => {
 function App() {
   return (
     <StoreProvider>
+      <Header />
+      <Main />
       <Form />
       <List />
+      <Footer />
     </StoreProvider>
   );
 }
